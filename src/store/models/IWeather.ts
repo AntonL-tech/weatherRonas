@@ -1,7 +1,12 @@
+import { Weather } from './WeatherItem';
+
 export interface IWeather {
-  albumId?: number;
-  id?: number;
-  title?: string;
-  url?: string;
-  thumbnailUrl?: string;
+  name: string;
+  weather?: Weather[];
+  main?: {
+    temp: string;
+  };
+  wind?: {
+    speed: number;
+  };
 }

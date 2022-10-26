@@ -1,24 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Format } from '../models/Format';
 import { IWeather } from '../models/IWeather';
 
-interface PhotoState {
+interface WeatherState {
   weather: IWeather;
   isLoading: boolean;
   error: string;
-  count: number;
+  format: Format;
 }
 
-const initialState: PhotoState = {
-  weather: {},
+const initialState: WeatherState = {
+  weather: {
+    name: '',
+  },
   isLoading: false,
   error: '',
-  count: 0,
+  format: 0,
 };
 
 export const weatherSlice = createSlice({
   name: 'weather',
   initialState,
   reducers: {
+    changeFormat(state, action: PayloadAction<Format>) {
+      state.format = action.payload;
+    },
     weatherFetching(state) {
       state.isLoading = true;
     },
@@ -30,6 +36,7 @@ export const weatherSlice = createSlice({
     photosFetchingFail(state, action: PayloadAction<string>) {
       state.isLoading = false;
       state.error = action.payload;
+      state.weather = { name: '' };
     },
   },
 });

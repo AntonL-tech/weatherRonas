@@ -1,22 +1,17 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, ScrollView } from 'react-native';
-import { Header } from './src/components';
-import appTheme from './src/constants/theme';
+
+import { Provider } from 'react-redux';
+import { setupStore } from './src/store/store';
+import HomeScreen from './src/screens/HomeScreen';
+
+const store = setupStore();
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <Header />
-      <Text>App</Text>
-    </SafeAreaView>
+    <Provider store={store}>
+      <HomeScreen />
+    </Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: appTheme.COLORS.primary,
-  },
-});
 
 export default App;

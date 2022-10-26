@@ -1,34 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import appTheme from '../constants/theme';
 import { locationArrow } from '../constants/images';
-import SwitchComponent from './SwitchComponent';
-import ButtonComponet from './ButtonComponet';
+import { SwitchComponent, ButtonComponet, InputComponent } from '../components';
 
-export type HeaderProps = {};
+import appTheme from '../constants/theme';
 
-const Header = (props: HeaderProps) => (
-  <View style={styles.container}>
-    <View style={styles.row}>
-      <Text style={styles.cityText}>город</Text>
-      <SwitchComponent onPress={() => console.log('switched')} />
+export type HeaderProps = {
+  name: string;
+  getCureentLocation: () => void;
+};
+
+const Header = (props: HeaderProps) => {
+  const { name, getCureentLocation } = props;
+  const [changeCity, setChangeSity] = useState(false);
+
+  if (changeCity) {
+    return (
+      <View style={styles.container}>
+        <InputComponent setChangeSity={setChangeSity} />
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.row}>
+        <Text style={styles.cityText}>{name}</Text>
+        <SwitchComponent />
+      </View>
+      <View style={styles.row}>
+        <ButtonComponet
+          onPress={() => setChangeSity(true)}
+          text="Сменить город"
+        />
+        <ButtonComponet
+          onPress={() => getCureentLocation()}
+          text="Мое местоположение"
+          image={locationArrow}
+        />
+      </View>
     </View>
-    <View style={styles.row}>
-      <ButtonComponet onPress={() => console.log(123)} text="Сменить город" />
-      <ButtonComponet
-        onPress={() => console.log(234)}
-        text="Мое местоположение"
-        image={locationArrow}
-      />
-    </View>
-  </View>
-);
+  );
+};
 
 export default Header;
 
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: appTheme.SIZES.padding,
+    height: 150,
   },
   row: {
     flexDirection: 'row',

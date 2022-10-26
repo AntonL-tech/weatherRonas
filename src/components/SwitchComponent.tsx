@@ -2,35 +2,36 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 import appTheme from '../constants/theme';
+import { useAppDispatch, useAppSelector } from '../store/hooks/redux';
+import { Format } from '../store/models/Format';
+import { weatherSlice } from '../store/reducers/WeatherSlice';
 
 const Switch = SwitchSelector as any;
 
-export type SwitchComponentProps = {
-  onPress: () => void;
-};
-
 const options = [
-  { label: 'C', value: 'C' },
-  { label: 'F', value: 'F' },
+  { label: 'C', value: 0 },
+  { label: 'F', value: 1 },
 ];
 
-const SwitchComponent = (props: SwitchComponentProps) => {
-  const { onPress } = props;
+const SwitchComponent = () => {
+  const dispatch = useAppDispatch();
+  const { changeFormat } = weatherSlice.actions;
+  const { format } = useAppSelector(state => state.weatherReducer);
 
   return (
     <View>
       <View style={styles.indicator} />
       <Switch
         options={options}
-        initial={0}
+        initial={format}
         style={styles.switch}
         borderWidth={4}
         borderRadius={10}
         textColor={appTheme.COLORS.secondary}
         selectedColor={appTheme.COLORS.white}
-        backgroundColor={appTheme.COLORS.primary}
+        backgroundColor={'#3b5998'}
         buttonColor={appTheme.COLORS.secondary}
-        onPress={onPress}
+        onPress={(value: Format) => dispatch(changeFormat(value))}
       />
     </View>
   );
